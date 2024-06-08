@@ -1,8 +1,6 @@
-# Dockerfile
-
 # Use the official Node.js image as the base image
-ARG NODE_VERSION
-FROM node:${NODE_VERSION} AS builder
+ARG NODE_IMAGE
+FROM node:${NODE_IMAGE} AS builder
 
 # Set the working directory
 WORKDIR /usr/src/app
@@ -16,4 +14,3 @@ EXPOSE 4200
 
 # Command to keep the container running
 CMD ["tail", "-f", "/dev/null"]
-

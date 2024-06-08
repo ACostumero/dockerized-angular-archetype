@@ -7,14 +7,15 @@ services:
       dockerfile: Dockerfile
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.angular.rule=Host(`localhost`)"
+      - "traefik.http.routers.angular.rule=Host(`${APP_NAME}.localhost`)"
       - "traefik.http.services.angular.loadbalancer.server.port=4200"
     ports:
       - "4200:4200"
     volumes:
       - .:/usr/src/app
-      # Add any other volumes as needed
     working_dir: /usr/src/app
+    tty: true
+    user: ${UID}:${GID}
     env_file:
       - .env
   traefik:
