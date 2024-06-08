@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  angular-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.angular.rule=Host(`localhost`)"
+      - "traefik.http.services.angular.loadbalancer.server.port=4200"
+    ports:
+      - "4200:4200"
+    volumes:
+      - .:/usr/src/app
+      # Add any other volumes as needed
+    working_dir: /usr/src/app
+    env_file:
+      - .env
+  traefik:
+    image: traefik:v2.5
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+    ports:
+      - "80:80"
+      - "8080:8080"  # Traefik dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
